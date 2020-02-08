@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Coffee Bill</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+</head>
+
+<body>
+    <h2>Coffee Bill</h2>
+    <table id="bill">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody id="product-list"></tbody>
+        <tfoot>
+            <tr>
+                <td>Total:</td>
+                <td>0.00</td>
+            </tr>
+        </tfoot>
+    </table>
+    <section id="add-product">
+        <h3>Add new product</h3>
+        <label>
+            <span>
+                Product:
+            </span>
+            <input type="text">
+        </label>
+        <label>
+            <span>
+                Price:
+            </span>
+            <input type="number">
+        </label>
+        <button onclick="addProduct()">Add</button>
+    </section>
+
+    <script>
+        function addProduct() {
+            const inputFields = document.querySelectorAll('#add-product input');
+            const productField = inputFields[0];
+            const priceField = inputFields[1];
+            const parsedPrice = parseFloat(priceField.value);
+
+            const tableBody = document.querySelector('#product-list');
+            const tableFooter = document.querySelector('tfoot');
+            const totalPriceTd = tableFooter.getElementsByTagName('td')[1];
+
+            if (productField.value.length > 0 && priceField.value.length > 0 && parsedPrice > 0) {
+                const row = document.createElement('tr');
+                const productTd = document.createElement('td');
+                const priceTd = document.createElement('td');
+
+                productTd.textContent = productField.value;
+                priceTd.textContent = parsedPrice;
+
+                let currentTotal = parseFloat(totalPriceTd.textContent);
+
+                totalPriceTd.textContent = currentTotal + parsedPrice;
+
+                row.appendChild(productTd);
+                row.appendChild(priceTd);
+
+                tableBody.appendChild(row);
+
+                productField.value = '';
+                priceField.value = '';
+            }
+        }
+    </script>
+
+</body>
+
+</html>
